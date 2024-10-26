@@ -1,3 +1,4 @@
+import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from '../../services/store';
 import { Preloader } from '../ui/preloader';
@@ -11,28 +12,27 @@ type ProtectedRouteProps = {
   children: React.ReactElement;
 };
 
-export const ProtectedRoute = ({
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   onlyUnAuth,
   children
-}: ProtectedRouteProps) => {
+}) => {
   const isAuthChecked = useSelector(isAuthCheckedSelector);
   const loginUserRequest = useSelector(loginUserRequestSelector);
   const location = useLocation();
 
-  // В процессе подгрузки пользователя
   if (!isAuthChecked && loginUserRequest) {
     return <Preloader />;
   }
 
-  // Нужна авторизация
-  if (!onlyUnAuth && !isAuthChecked) {
-    return <Navigate replace to='/login' state={{ from: location }} />;
+  if (!isAuthChecked) {
+    if (!onlyUnAuth) {
+      return <Navigate to='/login' state={{ from: location }} />;
+    }
   }
 
-  // Мы авторизованы
   if (onlyUnAuth && isAuthChecked) {
-    const from = location.state?.from || { pathname: '/' };
-    return <Navigate y to={from} state={location} />;
+    const redirectTo = location.state?.from || { pathname: '/' };
+    return <Navigate to={redirectTo} state={location} />;
   }
 
   return children;

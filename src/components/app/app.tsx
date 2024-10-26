@@ -32,10 +32,9 @@ const App = () => {
   const background = location.state?.background;
 
   useEffect(() => {
-    // Получение ингредиентов и данных пользователя при загрузке компонента
     dispatch(getIngredientsThunk());
     dispatch(getUserThunk());
-  }, [dispatch]); // Указан dispatch в зависимости для предотвращения предупреждений
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>

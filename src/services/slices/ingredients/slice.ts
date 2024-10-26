@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-
 import { TIngredient } from '../../../utils/types';
 import { getIngredientsThunk } from './actions';
 
@@ -25,7 +24,6 @@ const ingredientsSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      // Подгружаем все ингредиенты
       .addCase(getIngredientsThunk.pending, (state) => {
         state.isIngredientsLoading = true;
       })

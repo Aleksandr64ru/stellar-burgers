@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-
 import { TOrder, TUser } from '../../../utils/types';
 import {
   getOrdersThunk,
@@ -50,7 +49,6 @@ const userSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      // Авторизуемся
       .addCase(loginUserThunk.pending, (state) => {
         state.loginUserRequest = true;
         state.error = null;
@@ -65,14 +63,12 @@ const userSlice = createSlice({
         state.isAuthenticated = true;
       })
 
-      // Снимаем авторизацию
       .addCase(logoutUserThunk.pending, (state) => {
         state.user = null;
         state.loginUserRequest = false;
         state.isAuthenticated = false;
       })
 
-      // Подгружаем данные пользователя
       .addCase(getUserThunk.pending, (state) => {
         state.loginUserRequest = true;
       })
@@ -87,7 +83,6 @@ const userSlice = createSlice({
         state.isAuthenticated = true;
       })
 
-      // Регистрируем пользователя на сервере
       .addCase(registerUserThunk.pending, (state) => {
         state.isAuthenticated = false;
         state.loginUserRequest = true;
@@ -103,7 +98,6 @@ const userSlice = createSlice({
         state.isAuthenticated = true;
       })
 
-      // Обновляем данные пользователя
       .addCase(updateUserThunk.pending, (state) => {
         state.loginUserRequest = true;
       })
@@ -117,7 +111,6 @@ const userSlice = createSlice({
         state.isAuthenticated = true;
       })
 
-      // Подгружаем историю заказов пользователя
       .addCase(getOrdersThunk.pending, (state) => {
         state.ordersRequest = true;
       })

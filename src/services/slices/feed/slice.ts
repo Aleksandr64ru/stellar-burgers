@@ -1,5 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
-
+import { createSlice, createSelector } from '@reduxjs/toolkit';
 import { TOrder } from '../../../utils/types';
 import { getFeedsThunk, getOrderByNumberThunk } from './actions';
 
@@ -13,7 +12,7 @@ export interface FeedState {
   error: string | null;
 }
 
-export const initialState: FeedState = {
+const initialState: FeedState = {
   orders: [],
   isFeedsLoading: false,
   order: null,
@@ -26,55 +25,49 @@ export const initialState: FeedState = {
 const feedSlice = createSlice({
   name: 'feed',
   initialState,
-  selectors: {
-    ordersSelector: (state) => state.orders,
-    isFeedsLoadingSelector: (state) => state.isFeedsLoading,
-    orderSelector: (state) => state.order,
-    isOrderLoadingSelector: (state) => state.isOrderLoading,
-    totalSelector: (state) => state.total,
-    totalTodaySelector: (state) => state.totalToday
-  },
   reducers: {},
-  extraReducers(builder) {
+  extraReducers: (builder) => {
     builder
-      // Подгружаем все заказы
       .addCase(getFeedsThunk.pending, (state) => {
         state.isFeedsLoading = true;
+        state.error = null;
       })
-      .addCase(getFeedsThunk.rejected, (state, action) => {
+      .addCase(getFeedsThunk.rejected, (state, { error }) => {
         state.isFeedsLoading = false;
-        state.error = action.error.message!;
+        state.error = error.message || 'Ошибка загрузки заказов';
       })
-      .addCase(getFeedsThunk.fulfilled, (state, action) => {
+      .addCase(getFeedsThunk.fulfilled, (state, { payload }) => {
         state.isFeedsLoading = false;
-        state.orders = action.payload.orders;
-        state.total = action.payload.total;
-        state.totalToday = action.payload.totalToday;
+        state.orders = payload.orders;
+        state.total = payload.total;
+        state.totalToday = payload.totalToday;
+        state.error = null;
       })
 
-      // Подгружаем конкретный заказ
       .addCase(getOrderByNumberThunk.pending, (state) => {
         state.isOrderLoading = true;
+        state.error = null;
       })
-      .addCase(getOrderByNumberThunk.rejected, (state, action) => {
-        state.error = action.error.message!;
+      .addCase(getOrderByNumberThunk.rejected, (state, { error }) => {
         state.isOrderLoading = false;
+        state.error = error.message || 'Ошибка загрузки заказа';
       })
-      .addCase(getOrderByNumberThunk.fulfilled, (state, action) => {
-        state.order = action.payload.orders[0];
+      .addCase(getOrderByNumberThunk.fulfilled, (state, { payload }) => {
+        state.order = payload.orders[0] || null;
         state.isOrderLoading = false;
+        state.error = null;
       });
   }
 });
 
-export const {
-  ordersSelector,
-  isFeedsLoadingSelector,
+export const ordersSelector = (state: { feed: FeedState }) => state.feed.orders;
+export const isFeedsLoadingSelector = (state: { feed: FeedState }) =>
+  state.feed.isFeedsLoading;
+export const orderSelector = (state: { feed: FeedState }) => state.feed.order;
+export const isOrderLoadingSelector = (state: { feed: FeedState }) =>
+  state.feed.isOrderLoading;
+export const totalSelector = (state: { feed: FeedState }) => state.feed.total;
+export const totalTodaySelector = (state: { feed: FeedState }) =>
+  state.feed.totalToday;
 
-  orderSelector,
-  isOrderLoadingSelector,
-
-  totalSelector,
-  totalTodaySelector
-} = feedSlice.selectors;
 export default feedSlice.reducer;
