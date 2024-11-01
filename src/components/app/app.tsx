@@ -35,7 +35,6 @@ const App = () => {
     dispatch(getIngredientsThunk());
     dispatch(getUserThunk());
   }, [dispatch]);
-
   return (
     <div className={styles.app}>
       <AppHeader />

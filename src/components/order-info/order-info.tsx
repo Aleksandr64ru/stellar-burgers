@@ -20,7 +20,6 @@ export const OrderInfo: FC = () => {
   const orderData = useSelector(orderSelector);
   const ingredients = useSelector(ingredientsSelector);
 
-  /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;
 

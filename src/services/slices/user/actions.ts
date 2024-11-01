@@ -13,7 +13,8 @@ import {
 import { deleteCookie, setCookie } from '../../../utils/cookie';
 
 /**
- * @param data
+ * Асинхронно авторизуемся
+ * @param data Логин и пароль для авторизации
  */
 export const loginUserThunk = createAsyncThunk(
   'users/loginUser',
@@ -26,6 +27,7 @@ export const loginUserThunk = createAsyncThunk(
 );
 
 /**
+ * Асинхронно снимаем авторизацию
  */
 export const logoutUserThunk = createAsyncThunk('users/logoutUser', async () =>
   logoutApi().then(() => {

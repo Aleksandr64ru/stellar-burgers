@@ -9,7 +9,7 @@ export const getFeedsThunk = createAsyncThunk('feeds/getFeeds', async () =>
 );
 
 /**
- * @param number
+ * @param number Номер интересуемого заказа
  */
 export const getOrderByNumberThunk = createAsyncThunk(
   'orders/getOrder',

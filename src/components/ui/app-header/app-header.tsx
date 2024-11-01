@@ -9,6 +9,7 @@ import {
 } from '@zlden/react-developer-burger-ui-components';
 import { Link, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
+import { NavLink } from 'react-router-dom';
 
 export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => {
   const location = useLocation();
@@ -19,7 +20,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => {
       <nav className={`${styles.menu} p-4`}>
         <div className={styles.menu_part_left}>
           <>
-            <Link
+            <NavLink
               className={clsx(
                 styles.link,
                 currentLocation === '/'
@@ -34,10 +35,10 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => {
               <p className='text text_type_main-default ml-2 mr-10'>
                 Конструктор
               </p>
-            </Link>
+            </NavLink>
           </>
           <>
-            <Link
+            <NavLink
               className={clsx(
                 styles.link,
                 currentLocation === '/feed'
@@ -50,14 +51,14 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => {
                 type={currentLocation === '/feed' ? 'primary' : 'secondary'}
               />
               <p className='text text_type_main-default ml-2'>Лента заказов</p>
-            </Link>
+            </NavLink>
           </>
         </div>
         <div className={styles.logo}>
           <Logo className='' />
         </div>
         <div className={styles.link_position_last}>
-          <Link
+          <NavLink
             className={clsx(
               styles.link,
               currentLocation === '/profile'
@@ -72,7 +73,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => {
             <p className='text text_type_main-default ml-2'>
               {userName || 'Личный кабинет'}
             </p>
-          </Link>
+          </NavLink>
         </div>
       </nav>
     </header>

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import { TOrder } from '../../../utils/types';
 import { orderBurgerThunk } from './actions';
 
@@ -30,6 +31,7 @@ const orderSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      // Формируем заказ
       .addCase(orderBurgerThunk.pending, (state) => {
         state.isOrderLoading = true;
       })
